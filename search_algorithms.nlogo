@@ -1,4 +1,4 @@
-__includes["kretanje.nls" "labirint.nls" "graf.nls" "algoritam.nls"]
+__includes["motion.nls" "labyrinth.nls" "graph.nls" "algorithm.nls"]
 breed [agenti agent ]
 breed [cvijece cvijet]
 globals [
@@ -14,7 +14,7 @@ globals [
     traglijevo
     tragdesno
     tragnaprijed
-    zz
+    varijabla
     brojj
 
 ]
@@ -40,7 +40,7 @@ to setup
   stvori-agenta
   stvori-cvijet
   oznaci-polja
-  set zz 0
+  set varijabla 0
 end
 
 

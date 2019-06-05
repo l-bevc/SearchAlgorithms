@@ -2,14 +2,14 @@ to mravi
 
 every 0.5
 [
-   if (zz mod 6 = 0)
+   if (varijabla mod 6 = 0)
   [
   stvori-agenta2 ]
   ask patches with [trag >= 1][set trag (trag - 1)]
   ask agenti [
     korak3
     ]
-  set zz zz + 1
+  set varijabla varijabla + 1
   
   ]
 end
