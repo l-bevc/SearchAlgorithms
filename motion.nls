@@ -1,0 +1,58 @@
+to naprijed
+  
+  ask agent 0 
+  [
+   set heading 0
+  ]
+end
+
+
+to natrag
+  ask agent 0
+  [
+  set heading 180
+   ]
+end
+
+to lijevo 
+
+  ask agent 0 [set heading 270]
+end
+
+to desno 
+
+  ask agent 0 [set heading 90]
+end
+
+
+to provjera_lijevo
+  ask agent 0 [
+   ifelse [pcolor] of patch-left-and-ahead 90 1 != violet [
+     ifelse [pcolor] of patch-left-and-ahead 90 2 != violet [set slijevo 2][ set slijevo 1]
+  ][set slijevo 0]
+   ]
+end
+
+
+to provjera_desno
+     ask agent 0 [
+   ifelse [pcolor] of patch-right-and-ahead 90 1 != violet [
+     ifelse [pcolor] of patch-right-and-ahead 90 2 != violet [set sdesno 2][ set sdesno 1]
+  ][set sdesno 0]
+   ]
+end
+
+to provjera_naprijed
+    ask agent 0 [
+   ifelse [pcolor] of patch-ahead 1 != violet [
+     ifelse [pcolor] of patch-ahead 2 != violet [set snaprijed 2][ set snaprijed 1]
+  ][set snaprijed 0]
+   ]
+end
+
+to provjera
+  provjera_lijevo
+  provjera_desno
+  provjera_naprijed
+  
+end

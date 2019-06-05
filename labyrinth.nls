@@ -1,0 +1,50 @@
+to crtaj-zidove2
+    ask patches with [ pxcor = min-pxcor or pxcor = max-pxcor or
+    pycor = min-pycor or pycor = max-pycor ]
+  [
+    set pcolor violet
+  ]
+   ask patches at-points [ [2 1] [2 2] [2 3] [2 5] [2 6] [2 7] [2 8] [2 9] [3 9] [4 9] [5 9]
+     [6 9] [6 11] [5 11] [4 11] [3 11] [3 12] [14 13] [13 13] [12 13] [11 13] [13 1] [13 2]
+     [13 3]  [13 5] [13 6] [13 7] [7 14] [7 13] [7 3] [8 3] [8 2] [7 4] [7 5]
+     [7 6] [10 8] [10 9] [11 8] [11 9] [14 12]  [4 7] [5 7] [5 6] [5 4] [5 3] [4 1] [2 13]
+     [5 14] [5 13] [4 3] [6 2] [4 6] [9 13] [9 12] [9 11] [8 11] [10 2] [11 2] [10 4] [10 5]
+     [10 6] [11 5] [9 5] [9 8] [7 7] [11 11] [12 11] [13 11] [13 8] [8 9] [13 10] [2 11]]
+  [ set pcolor violet]
+
+ 
+end
+
+
+to stvori-cvijet2
+
+  create-cvijece 1[
+      set xcor 12
+      set ycor 2
+  set shape "flower"
+  set heading 0
+  set color red
+  ]
+end
+
+to stvori-agenta2
+
+  create-agenti 1[
+  set xcor 1
+  set ycor 1
+  set shape "bug"
+  set heading 0
+  set color black
+  pen-down
+  ifelse any? cvijece-here [set cilj? true] [set cilj? false]
+  set moj-put []
+  set listamravi []
+  set cilj? false
+  set prazna []
+  set brkoraka 0
+  set broj 1000
+  set ciljevi []
+  set brojukupnih []
+  set brojpomocni 0
+  ]
+end

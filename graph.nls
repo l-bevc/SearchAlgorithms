@@ -1,0 +1,102 @@
+to valna-fronta
+  ask patches with[pcolor = violet][set udaljen 255]
+  ask patches with[pcolor = green][set udaljen 0]
+  ask patches with [any? cvijece-here][set udaljen 1]
+  ask patch 1 1[set udaljen 254]
+  let br_udaljenosti 0
+  while [any? patches with [udaljen = 0]][
+    set br_udaljenosti br_udaljenosti + 1
+    ask patches with [udaljen = br_udaljenosti][
+      ifelse Susjedstvo = "Moore"[
+        ask neighbors[if udaljen = 0[set udaljen [udaljen] of myself + 1]]
+      ]
+    [
+      ask neighbors4[if udaljen = 0[set udaljen [udaljen] of myself + 1]]
+    ]
+    ]
+  ]
+  ask patches with [ udaljen < 300 ][set plabel udaljen
+    set plabel-color black]
+end
+
+to valna-pretraga
+  ifelse Susjedstvo = "Moore"[
+    ask agenti[downhill udaljen]
+  ][ask agenti[downhill4 udaljen]]
+end
+
+
+to euklidska-udaljenost
+  ask agenti
+  [ set procjena-puta distance one-of patches with [any? cvijece-here] ]
+end
+
+
+to pohlepna-pretraga
+ if (any? agenti) [
+  ask first(sort-by[[procjena-puta] of ?1 < [procjena-puta] of ?2] agenti)
+  [
+    euklidska-udaljenost
+    korak-pretrage
+  ] ]
+end
+
+to racunaj-astar
+
+  ask first(sort-by[[procjena-puta + brkoraka] of ?1 < [procjena-puta + brkoraka] of ?2] agenti)
+  [
+    provjeri-cilj
+    while [cilj? = false] [
+    euklidska-udaljenost
+    korak-pretrage
+    euklidska-udaljenost
+    provjeri-cilj]
+
+ ]
+end
+
+ to tabu
+
+ ask first (sort-by [[brojac-koraka] of ?1 < [brojac-koraka] of ?2] agenti)
+  [
+    korak-pretrage1
+  ]
+
+ end
+
+  to korak-pretrage1
+    if [pcolor != violet] of patch-left-and-ahead 90 1
+    [ hatch 1 [
+        lt 90 fd 1
+        if member? plabel moj-put [die]
+        ifelse length moj-put <= ogranicenje-liste - 1 
+        [set moj-put fput plabel moj-put ]
+        [set moj-put but-last  moj-put set moj-put fput plabel moj-put]
+
+         set brojac-koraka brojac-koraka + 1
+        ] ]
+
+    if [pcolor != violet] of patch-ahead 1
+    [ hatch 1 [
+         fd 1
+         if member? plabel moj-put [die]
+        ifelse length moj-put <= ogranicenje-liste - 1 
+        [ set moj-put fput plabel moj-put ]
+        [ set moj-put but-last moj-put set moj-put fput plabel moj-put]
+
+         set brojac-koraka brojac-koraka + 1
+        ] ]
+
+    if [pcolor != violet] of patch-right-and-ahead 90 1
+    [ hatch 1 [
+        rt 90 fd 1
+        if member? plabel moj-put [die]
+        ifelse length moj-put <= ogranicenje-liste - 1 
+        [ set moj-put fput plabel moj-put ]
+        [set moj-put but-last moj-put set moj-put fput plabel moj-put]
+
+         set brojac-koraka brojac-koraka + 1
+         ] ]
+
+    die
+    end

@@ -1,0 +1,209 @@
+to mravi
+
+every 0.5
+[
+   if (zz mod 6 = 0)
+  [
+  stvori-agenta2 ]
+  ask patches with [trag >= 1][set trag (trag - 1)]
+  ask agenti [
+    korak3
+    ]
+  set zz zz + 1
+  
+  ]
+end
+ 
+        
+
+to korak3
+   provjeri-cilj
+      if ( [pcolor] of patch-ahead 1 = violet and [pcolor] of patch-left-and-ahead 90 1 = violet and [pcolor] of patch-right-and-ahead 90 1 = violet) [die]
+   ifelse ([trag] of patch-ahead 1 = [trag] of patch-right-and-ahead 90 1 and [trag] of patch-ahead 1 = [trag] of patch-left-and-ahead 90 1 
+     and ([pcolor] of patch-ahead 1 != violet or [pcolor] of patch-left-and-ahead 90 1 != violet or [pcolor] of patch-right-and-ahead 90 1 != violet))
+   [
+     let qq random 3 + 1
+     ifelse (qq = 1 and [pcolor] of patch-ahead 1 != violet ) [ hatch 1
+      [
+        forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1) 
+          while [ 0 < brojj ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+            set brojj (brojj - 1)
+          ]
+          die
+          ]
+
+        ] ]
+      [
+        ifelse (qq != 3 and [pcolor] of patch-right-and-ahead 90 1 != violet) [ hatch 1
+      [
+        right 90
+       forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1) 
+          while [ 0 < brojj ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+            set brojj (brojj - 1)
+          ]
+          die
+          ]
+        ]] [   hatch 1
+      [
+        left 90
+       forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1) 
+          while [ 0 < brojj ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+            set brojj (brojj - 1)
+          ]
+          
+          die]
+        ] ]
+        
+        ]
+      provjeri-cilj
+      ifelse cilj? = false [
+     die] [
+       let feromon 100
+       set listamravi lput plabel listamravi
+       set brojj (length listamravi - 1) 
+          while [ 0 < brojj ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon)]
+            set feromon feromon - 3
+            set brojj (brojj - 1) ]
+          
+    die]
+     ] [
+    if [pcolor] of patch-ahead 1 != violet and ([trag] of patch-ahead 1 >= [trag] of patch-right-and-ahead 90 1 and
+    [trag] of patch-ahead 1 >= [trag] of patch-left-and-ahead 90 1 )
+    [ hatch 1
+      [
+        forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj ((length listamravi) - 1) 
+          while [ 0 < brojj ]
+          [
+              setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+              ask patch-here [ set trag (trag + feromon) ]
+              set feromon feromon - 3          
+              set brojj (brojj - 1)         
+          ]          
+         die]
+
+        ]]
+    if [pcolor] of patch-left-and-ahead 90 1 != violet and 
+     ( [trag] of patch-left-and-ahead 90 1 >= [trag] of patch-right-and-ahead 90 1 and
+    [trag] of patch-left-and-ahead 90 1 >= [trag] of patch-ahead 1 )
+    [ hatch 1
+      [
+        left 90
+       forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1) 
+          while [ brojj > 0 ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+            set brojj (brojj - 1)
+          ]
+          die
+          ]
+        ]]
+    if [pcolor] of patch-right-and-ahead 90 1 != violet and 
+    ( [trag] of patch-right-and-ahead 90 1 >= [trag] of patch-left-and-ahead 90 1 and
+    [trag] of patch-right-and-ahead 90 1 >= [trag] of patch-ahead 1 )
+    [ hatch 1
+      [
+        right 90
+       forward 1
+        set brkoraka brkoraka + 1
+        provjeri-cilj
+        if ( member? plabel listamravi)
+        [die]
+        ifelse cilj? = false [
+          set listamravi lput plabel listamravi]
+        [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1)
+          while [ 0 < brojj ]
+          [
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+            set brojj (brojj - 1)
+          ]
+          die
+          ]
+        ]]
+   ifelse cilj? = false [
+     die] [
+          let feromon 100
+          set listamravi lput plabel listamravi
+          set brojj (length listamravi - 1)
+          while [ 0 < brojj ]
+          [
+            
+            setxy (item brojj listamravi / 1000) (item brojj listamravi mod 1000)
+            ask patch-here [ set trag (trag + feromon) ]
+            set feromon feromon - 3
+          set brojj (brojj - 1)
+          ]
+    die] ]
+end
+
